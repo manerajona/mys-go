@@ -7,7 +7,13 @@ import (
 )
 
 func main() {
-  fmt.Println(calculate(99))
+  var n int
+  fmt.Println("Ingrese la cantidad de num. aleatorios a generar : ")
+  _, err := fmt.Scanf("%d", &n)
+  if err != nil {
+    fmt.Println(err)
+  }
+  fmt.Println(calculate(n))
 }
 
 func calculate(count int) []float64 {
