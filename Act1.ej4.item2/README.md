@@ -1,4 +1,4 @@
-# Actividad 1 - Ejercicio 3 - Item 2
+# Actividad 1 - Ejercicio 4 - Item 2
 
 1- generar números aleatorios con distribución uniforme continua entre 20 y 50
 
