@@ -67,7 +67,7 @@ func calculate(op int) {
         templateXTres(sequence4, n)
     case 5:
         sequence5 := empirica(n)
-        templateSimple(sequence5, op5, "Empirica", "f(x)= x si 0<=x<=1; f(x)= 2-x si 1<=x<=2; f(x)= 0 para cualquier otro caso;")
+        templateSimple(sequence5, op5, "Empirica", "f(x)= x si 0<=x<=1 : f(x)= 2-x si 1<=x<=2 : f(x)= 0")
     case 6:
         sequence6 := poisson(1.9, n)
         templateSimple(sequence6, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
