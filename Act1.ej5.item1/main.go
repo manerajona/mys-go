@@ -54,25 +54,32 @@ func calculate(op int) {
   const n = 10
   switch op {
     case 1:
+        // Dist. uniforme continua entre 13 y 17
         sequence1 := uniformeContinua(13, 17, n)
         templateSimple(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd()")
     case 2:
+        // Dist. uniforme discreta entre 20 y 25
         sequence2 := uniformeDiscreta(20, 25, n)
         templateSimple(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd()")
     case 3:
+        // Dist. exponencial con lamda**-1 = 10
         sequence3 := exponencial(10, n)
         templateSimple(sequence3, op3, "E[10]", "-1 * 10 * Ln[1.0 - rnd()]")
     case 4:
-        sequence4 := UcUdExp(13, 17, 20, 25, 10, n)
+        // Distribuciones op 1, 2 y 3
+        sequence4 := UContUDiscExp(13, 17, 20, 25, 10, n)
         templateXTres(sequence4, n)
     case 5:
+        // Distribución empirica
         sequence5 := empirica(n)
         templateSimple(sequence5, op5, "Empirica", "f(x)= x si 0<=x<=1 : f(x)= 2-x si 1<=x<=2 : f(x)= 0")
     case 6:
+        // Dist. Poisson con media = 1.8
         sequence6 := poisson(1.9, n)
         templateSimple(sequence6, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
     case 7:
         HORA_INICIO := 21
+        // Dist. normal con media = 3 min y desv. = 0.5 min (a partir de las 21hs)
         sequence7 := normal(3, 0.5, n)
         templateHora(sequence7, op7, "N[3,0.5]", "rnd() * 0.5 + 3", HORA_INICIO)
     default:
@@ -166,7 +173,7 @@ func exponencial(lambda int, n int) []float64 {
   return sequence
 }
 
-func UcUdExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []float64 {
+func UContUDiscExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []float64 {
   sequence := []float64{}
   for n > 0 {
     rnd := rand.Float64();
