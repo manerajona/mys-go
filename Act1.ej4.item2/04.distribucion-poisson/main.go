@@ -15,11 +15,10 @@ func main() {
   fmt.Println(calculate(n))
 }
 
+const e float64 = 2.71828
+
 func calculate(count int) []float64 {
-
-  const e float64 = 2.71828
   sequence := []float64{}
-
   lambda:=2.0
   for count > 0 {
     n := count

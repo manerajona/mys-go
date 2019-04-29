@@ -16,7 +16,6 @@ func main() {
 }
 
 func calculate(count int) []int {
-
   sequence := []int{}
   a:=20
   b:=50

@@ -17,12 +17,9 @@ func main() {
 }
 
 func calculate(count int) []float64 {
-
   sequence := []float64{}
-
   for count > 0 {
     x := rand.Float64() * 3
-
     if (x > 1) {
       if x <= 2 {
         x = 2 - x
@@ -30,7 +27,7 @@ func calculate(count int) []float64 {
         x = 0
       }
     }
-    sequence = append(sequence, math.Round(x*100)/100)
+    sequence = append(sequence, math.Round(x*1000)/1000)
     count--
   }
   return sequence
