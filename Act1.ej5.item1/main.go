@@ -23,16 +23,7 @@ const op0 = "salir"
 
 func main() {
   for {
-    fmt.Println(">>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<")
-    fmt.Println("1."+op1)
-    fmt.Println("2."+op2)
-    fmt.Println("3."+op3)
-    fmt.Println("4."+op4)
-    fmt.Println("5."+op5)
-    fmt.Println("6."+op6)
-    fmt.Println("7."+op7)
-    fmt.Println("8."+op8)
-    fmt.Println("0."+op0)
+    menu()
     // Leer input
     var op int
     _, err := fmt.Scanf("%d", &op)
@@ -121,6 +112,19 @@ func templateHora(s []float64, titulo string, distribucion string, formula strin
     min += int(v)
     fmt.Println("NA:", strconv.Itoa(horaInicio) + ":" + strconv.Itoa(min) + "hs")
   }
+}
+
+func menu() {
+  fmt.Println(">>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<")
+  fmt.Println("1."+op1)
+  fmt.Println("2."+op2)
+  fmt.Println("3."+op3)
+  fmt.Println("4."+op4)
+  fmt.Println("5."+op5)
+  fmt.Println("6."+op6)
+  fmt.Println("7."+op7)
+  fmt.Println("8."+op8)
+  fmt.Println("0."+op0)
 }
 
 func helpMenu() {
