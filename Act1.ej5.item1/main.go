@@ -56,15 +56,15 @@ func calculate(op int) {
     case 1:
         // Dist. uniforme continua entre 13 y 17
         sequence1 := uniformeContinua(13, 17, n)
-        templateSimple(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd()")
+        templateSimple(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd")
     case 2:
         // Dist. uniforme discreta entre 20 y 25
         sequence2 := uniformeDiscreta(20, 25, n)
-        templateSimple(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd()")
+        templateSimple(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd")
     case 3:
-        // Dist. exponencial con lamda**-1 = 10
+        // Dist. exponencial con lambda**-1 = 10
         sequence3 := exponencial(10, n)
-        templateSimple(sequence3, op3, "E[10]", "-1 * 10 * Ln[1.0 - rnd()]")
+        templateSimple(sequence3, op3, "E[10]", "-1 * 10 * Ln[ 1 - rnd ]")
     case 4:
         // Distribuciones op 1, 2 y 3
         sequence4 := UContUDiscExp(13, 17, 20, 25, 10, n)
@@ -72,7 +72,7 @@ func calculate(op int) {
     case 5:
         // Distribución empirica
         sequence5 := empirica(n)
-        templateSimple(sequence5, op5, "Empirica", "f(x)= x si 0<=x<=1 : f(x)= 2-x si 1<=x<=2 : f(x)= 0")
+        templateSimple(sequence5, op5, "Empirica", "si 0<=x<=1 : fx = x, si 1<=x<=2 : fx = 2-x, sobrante : fx = 0")
     case 6:
         // Dist. Poisson con media = 1.8
         sequence6 := poisson(1.9, n)
