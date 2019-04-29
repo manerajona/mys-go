@@ -103,7 +103,7 @@ func templateXTres(s []float64, n int) {
     }
 }
 
-func templateHora(s []float64, titulo string, distribucion string, formula string, horaInicio int,) {
+func templateHora(s []float64, titulo string, distribucion string, formula string, horaInicio int) {
   fmt.Println(">>>>>>>>>>>>>>>>>>>>"+titulo+"<<<<<<<<<<<<<<<<<<<<")
   fmt.Println("Distribución: "+distribucion)
   fmt.Println("Formula: "+formula)
