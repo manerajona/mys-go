@@ -7,7 +7,7 @@ import (
 
 func main() {
   var n int
-  fmt.Println("Ingrese la cantidad de num. aleatorios a generar : ")
+  fmt.Println("Ingrese la cantidad de rondas : ")
   _, err := fmt.Scanf("%d", &n)
   if err != nil {
     fmt.Println(err)
@@ -17,13 +17,21 @@ func main() {
 
 func printResult(res []int) {
   fmt.Println("Resultado: ")
-  for k,v := range res {
-    fmt.Printf("%v) %v \n", k, v)
+  for _,v := range res {
+    parity := "cero"
+    if v!=0 {
+      if v%2==0 {
+        parity = "par"
+      } else {
+        parity = "impar"
+      }
+    }
+    fmt.Printf("%d (%v) \n", v, parity)
   }
 }
 
-const a=20
-const b=50
+const a=0
+const b=36
 func calculate(count int) []int {
   sequence := []int{}
   for count > 0 {

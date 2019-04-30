@@ -12,20 +12,24 @@ func main() {
   if err != nil {
     fmt.Println(err)
   }
-  fmt.Println(calculate(n))
+  printResult(calculate(n))
+}
+
+func printResult(res []float64) {
+  fmt.Println("Resultado: ")
+  for k,v := range res {
+    fmt.Printf("%v) %v \n", k, v)
+  }
 }
 
 const e float64 = 2.71828
-
+const lambda=2.0
 func calculate(count int) []float64 {
   sequence := []float64{}
-  lambda:=2.0
-  for count > 0 {
-    n := count
+  for n:=0; n <=count; n++ {
     nfact := factorial(n) //n!
     x := (math.Pow(lambda, float64(n)) * math.Pow(e, -lambda)) / float64(nfact)
     sequence = append(sequence, math.Round(x*1000)/1000)
-    count--
   }
   return sequence
 }

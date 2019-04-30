@@ -211,11 +211,10 @@ func empirica(n int) []float64 {
 
 func poisson(lambda float64, n int) []float64 {
   sequence := []float64{}
-  for n > 0 {
-    nfact := factorial(n) //n!
-    x := (math.Pow(lambda, float64(n)) * math.Pow(e, -lambda)) / float64(nfact)
+  for i:=0; i<=n; i++ {
+    nfact := factorial(i) //n!
+    x := (math.Pow(lambda, float64(i)) * math.Pow(e, -lambda)) / float64(nfact)
     sequence = append(sequence, math.Round(x*DECIMAL_PRECISION)/DECIMAL_PRECISION)
-    n--
   }
   return sequence
 }

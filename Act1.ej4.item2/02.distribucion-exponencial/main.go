@@ -13,12 +13,19 @@ func main() {
   if err != nil {
     fmt.Println(err)
   }
-  fmt.Println(calculate(n))
+  printResult(calculate(n))
 }
 
+func printResult(res []float64) {
+  fmt.Println("Resultado: ")
+  for k,v := range res {
+    fmt.Printf("%v) %v \n", k, v)
+  }
+}
+
+const lambda=15.0
 func calculate(count int) []float64 {
   sequence := []float64{}
-  lambda:=15.0
   for count > 0 {
     x := -1.0 * lambda * math.Log(1.0 - rand.Float64())
     sequence = append(sequence, math.Round(x*1000)/1000)

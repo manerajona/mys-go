@@ -13,7 +13,14 @@ func main() {
   if err != nil {
     fmt.Println(err)
   }
-  fmt.Println(calculate(n))
+  printResult(calculate(n))
+}
+
+func printResult(res []float64) {
+  fmt.Println("Resultado: ")
+  for k,v := range res {
+    fmt.Printf("%v) %v \n", k, v)
+  }
 }
 
 func calculate(count int) []float64 {
