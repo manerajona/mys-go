@@ -109,6 +109,16 @@ func tableX3(fields []NumeroAleatorio) {
   printLine()
 }
 
+func arrF64toString(arr []float64) string {
+  var str string
+  i:=0
+  for _, x := range arr {
+    i++
+    str+=" op"+strconv.Itoa(i)+") "+strconv.FormatFloat(x, 'f', -1, 64)
+  }
+  return str
+}
+
 func printTimeTable(fields []NumeroAleatorio, titulo string, distribucion string, formula string, horaInicio int) {
   w := new(tabwriter.Writer)
   printHeader(w, titulo, distribucion, formula)
@@ -122,16 +132,6 @@ func printTimeTable(fields []NumeroAleatorio, titulo string, distribucion string
     fmt.Fprintln(w)
   }
   printLine()
-}
-
-func arrF64toString(arr []float64) string {
-  var str string
-  i:=0
-  for _, x := range arr {
-    i++
-    str+=" op"+strconv.Itoa(i)+") "+strconv.FormatFloat(x, 'f', -1, 64)
-  }
-  return str
 }
 
 func printHeader(w *tabwriter.Writer, titulo string, distribucion string, formula string) {
@@ -279,7 +279,7 @@ func round(x float64) float64{
 }
 
 func addAleatorio(arr []NumeroAleatorio, id int, x []float64, rnd float64) []NumeroAleatorio {
-  na := NumeroAleatorio{
+  na := NumeroAleatorio {
 		Id: id,
 		NGenerado: x,
     Rnd: round(rnd),
