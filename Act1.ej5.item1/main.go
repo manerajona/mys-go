@@ -48,33 +48,33 @@ func calculate(op int) {
   switch op {
     case 1:
         // Dist. uniforme continua entre 13 y 17
-        sequence1 := uniformeContinua(13, 17, n)
-        printSimpleTable(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd")
+        sequence := uniformeContinua(13, 17, n)
+        printSimpleTable(sequence, op1, "U[13;17]", "13 + (17-3) * rnd")
     case 2:
         // Dist. uniforme discreta entre 20 y 25
-        sequence2 := uniformeDiscreta(20, 25, n)
-        printSimpleTable(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd")
+        sequence := uniformeDiscreta(20, 25, n)
+        printSimpleTable(sequence, op2, "U[20;25]", "20 + (25-20) * rnd")
     case 3:
         // Dist. exponencial con lambda**-1 = 10
-        sequence3 := exponencial(10, n)
-        printSimpleTable(sequence3, op3, "E[10]", "-1 * 10 * Ln[ 1 - rnd ]")
+        sequence := exponencial(10, n)
+        printSimpleTable(sequence, op3, "E[10]", "-1 * 10 * Ln[ 1 - rnd ]")
     case 4:
         // Distribuciones op 1, 2 y 3
-        sequence4 := UContUDiscExp(13, 17, 20, 25, 10, n)
-        tableX3(sequence4, n)
+        sequence := UContUDiscExp(13, 17, 20, 25, 10, n)
+        tableX3(sequence)
     case 5:
         // Distribución empirica
-        sequence5 := empirica(n)
-        printSimpleTable(sequence5, op5, "Empirica", "si 0<=x<=1 : fx = x, si 1<=x<=2 : fx = 2-x, sobrante : fx = 0")
+        sequence := empirica(n)
+        printSimpleTable(sequence, op5, "Empirica", "si 0<=x<=1 : fx = x, si 1<=x<=2 : fx = 2-x, sobrante : fx = 0")
     case 6:
         // Dist. Poisson con media = 1.8
-        sequence6 := poisson(1.9, n)
-        printSimpleTable(sequence6, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
+        sequence := poisson(1.9, n)
+        printSimpleTable(sequence, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
     case 7:
         HORA_INICIO := 21
         // Dist. normal con media = 3 min y desv. = 0.5 min (a partir de las 21hs)
-        sequence7 := normal(3, 0.5, n)
-        printTimeTable(sequence7, op7, "N[3,0.5]", "rnd() * 0.5 + 3", HORA_INICIO)
+        sequence := normal(3, 0.5, n)
+        printTimeTable(sequence, op7, "N[3,0.5]", "rnd() * 0.5 + 3", HORA_INICIO)
     default:
         helpMenu()
   }
@@ -82,12 +82,10 @@ func calculate(op int) {
 
 func printSimpleTable(fields []NumeroAleatorio, titulo string, distribucion string, formula string) {
   w := new(tabwriter.Writer)
-	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
-	w.Flush()
   printHeader(w, titulo, distribucion, formula)
   for _, field := range fields {
     id:=strconv.Itoa(field.Id)
-    na:=strconv.FormatFloat(field.NGenerado, 'f', -1, 64)
+    na:=strconv.FormatFloat(field.NGenerado[0], 'f', -1, 64)
     rnd:=strconv.FormatFloat(field.Rnd, 'f', -1, 64)
     fmt.Fprintln(w, id+"\t"+na+"\t"+rnd+"\t")
     fmt.Fprintln(w)
@@ -95,29 +93,30 @@ func printSimpleTable(fields []NumeroAleatorio, titulo string, distribucion stri
   printLine()
 }
 
-func tableX3(s []NumeroAleatorio, n int) {
-  /*for k, v := range s {
-        if(k==n) {
-          fmt.Println(">>>>>>>>>>>>>>>>>>>>"+op2+"<<<<<<<<<<<<<<<<<<<<")
-        } else if(k==n*2) {
-            fmt.Println(">>>>>>>>>>>>>>>>>>>>"+op3+"<<<<<<<<<<<<<<<<<<<<")
-        }
-        fmt.Println("id:", k)
-        fmt.Println("NA:", v)
-    }*/
-    printLine()
+func tableX3(fields []NumeroAleatorio) {
+  w := new(tabwriter.Writer)
+  w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+	w.Flush()
+  printLine()
+  fmt.Fprintln(w, "Simulado \tGenerado \tRandom\t")
+  for _, field := range fields {
+    id:=strconv.Itoa(field.Id)
+    na:=arrF64toString(field.NGenerado)
+    rnd:=strconv.FormatFloat(field.Rnd, 'f', -1, 64)
+    fmt.Fprintln(w, id+"\t"+na+"\t"+rnd+"\t")
+    fmt.Fprintln(w)
+  }
+  printLine()
 }
 
 func printTimeTable(fields []NumeroAleatorio, titulo string, distribucion string, formula string, horaInicio int) {
   w := new(tabwriter.Writer)
-	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
-	w.Flush()
   printHeader(w, titulo, distribucion, formula)
   var min float64
   for _, field := range fields {
     id:=strconv.Itoa(field.Id)
-    min += field.NGenerado
-    na:= strconv.Itoa(horaInicio) + ":" + strconv.FormatFloat(min, 'f', -1, 64)+"hs"
+    min += field.NGenerado[0]
+    na:= strconv.Itoa(horaInicio) + ":" + strconv.FormatFloat(round(min), 'f', -1, 64)+"hs"
     rnd:=strconv.FormatFloat(field.Rnd, 'f', -1, 64)
     fmt.Fprintln(w, id+" \t"+na+" \t"+rnd)
     fmt.Fprintln(w)
@@ -125,7 +124,19 @@ func printTimeTable(fields []NumeroAleatorio, titulo string, distribucion string
   printLine()
 }
 
+func arrF64toString(arr []float64) string {
+  var str string
+  i:=0
+  for _, x := range arr {
+    i++
+    str+=" op"+strconv.Itoa(i)+") "+strconv.FormatFloat(x, 'f', -1, 64)
+  }
+  return str
+}
+
 func printHeader(w *tabwriter.Writer, titulo string, distribucion string, formula string) {
+  w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+	w.Flush()
   printLine()
   fmt.Println("- Titulo: "+titulo)
   fmt.Println("- Distribución: "+distribucion)
@@ -173,7 +184,8 @@ func uniformeContinua(a int, b int, n int) []NumeroAleatorio {
   for i:=0; i<=n; i++ {
     rnd := rand.Float64()
     x := rnd * float64(b - a) + float64(a)
-    sequence = addAleatorio(sequence, i, x, rnd)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -183,7 +195,8 @@ func uniformeDiscreta(a int, b int, n int) []NumeroAleatorio {
   for i:=0; i<=n; i++ {
     rnd := rand.Float64();
     x := rnd * float64(b - a) + float64(a)
-    sequence = addAleatorio(sequence, i, x, rnd)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -193,7 +206,8 @@ func exponencial(lambda int, n int) []NumeroAleatorio {
   for i:=0; i<=n; i++ {
     rnd := rand.Float64();
     x := -1.0 * float64(lambda) * math.Log(1.0 - rnd)
-    sequence = addAleatorio(sequence, i, x, rnd)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -204,13 +218,11 @@ func UContUDiscExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []NumeroAl
     rnd := rand.Float64();
 
     x1 := math.Round(rnd) * float64(b1 - a1) + float64(a1)
-    sequence = addAleatorio(sequence, i, x1, rnd)
-
     x2 := rnd * float64(b2 - a2) + float64(a2)
-    sequence = addAleatorio(sequence, i, x2, rnd)
-
     x3 := -1.0 * float64(lambda) * math.Log(1.0 - rnd)
-    sequence = addAleatorio(sequence, i, x3, rnd)
+
+    xn := []float64{round(x1), round(x2), round(x3)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -227,7 +239,8 @@ func empirica(n int) []NumeroAleatorio {
         x = 0
       }
     }
-    sequence = addAleatorio(sequence, i, x, rnd)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -237,7 +250,8 @@ func poisson(lambda float64, n int) []NumeroAleatorio {
   for i:=0; i<=n; i++ {
     nfact := factorial(i) //n!
     x := (math.Pow(lambda, float64(i)) * math.Pow(e, -lambda)) / float64(nfact)
-    sequence = addAleatorio(sequence, i, x, 0)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, 0)
   }
   return sequence
 }
@@ -247,7 +261,8 @@ func normal(a float64, b float64, n int) []NumeroAleatorio {
   for i:=0; i<=n; i++ {
     rnd := rand.Float64()
     x := rnd * b + a
-    sequence = addAleatorio(sequence, i, x, rnd)
+    xn := []float64{round(x)}
+    sequence = addAleatorio(sequence, i, xn, rnd)
   }
   return sequence
 }
@@ -259,11 +274,15 @@ func factorial(n int) int {
   return (n * factorial(n-1))
 }
 
-func addAleatorio(arr []NumeroAleatorio, id int, x float64, rnd float64) []NumeroAleatorio {
+func round(x float64) float64{
+  return math.Round(x*DECIMAL_PRECISION)/DECIMAL_PRECISION
+}
+
+func addAleatorio(arr []NumeroAleatorio, id int, x []float64, rnd float64) []NumeroAleatorio {
   na := NumeroAleatorio{
 		Id: id,
-		NGenerado:  math.Round(x*DECIMAL_PRECISION)/DECIMAL_PRECISION,
-    Rnd: math.Round(rnd*DECIMAL_PRECISION)/DECIMAL_PRECISION,
+		NGenerado: x,
+    Rnd: round(rnd),
 	}
   arr = append(arr, na)
   return arr
@@ -271,6 +290,6 @@ func addAleatorio(arr []NumeroAleatorio, id int, x float64, rnd float64) []Numer
 
 type NumeroAleatorio struct {
 	Id int
-	NGenerado float64
+	NGenerado []float64
   Rnd float64
 }
