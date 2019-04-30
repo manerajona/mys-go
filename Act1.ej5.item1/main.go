@@ -49,47 +49,53 @@ func calculate(op int) {
     case 1:
         // Dist. uniforme continua entre 13 y 17
         sequence1 := uniformeContinua(13, 17, n)
-        templateSimple(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd")
+        printSimpleTable(sequence1, op1, "U[13;17]", "13 + (17-3) * rnd")
     case 2:
         // Dist. uniforme discreta entre 20 y 25
         sequence2 := uniformeDiscreta(20, 25, n)
-        templateSimple(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd")
+        printSimpleTable(sequence2, op2, "U[20;25]", "20 + (25-20) * rnd")
     case 3:
         // Dist. exponencial con lambda**-1 = 10
         sequence3 := exponencial(10, n)
-        templateSimple(sequence3, op3, "E[10]", "-1 * 10 * Ln[ 1 - rnd ]")
+        printSimpleTable(sequence3, op3, "E[10]", "-1 * 10 * Ln[ 1 - rnd ]")
     case 4:
         // Distribuciones op 1, 2 y 3
         sequence4 := UContUDiscExp(13, 17, 20, 25, 10, n)
-        templateX3(sequence4, n)
+        tableX3(sequence4, n)
     case 5:
         // Distribución empirica
         sequence5 := empirica(n)
-        templateSimple(sequence5, op5, "Empirica", "si 0<=x<=1 : fx = x, si 1<=x<=2 : fx = 2-x, sobrante : fx = 0")
+        printSimpleTable(sequence5, op5, "Empirica", "si 0<=x<=1 : fx = x, si 1<=x<=2 : fx = 2-x, sobrante : fx = 0")
     case 6:
         // Dist. Poisson con media = 1.8
         sequence6 := poisson(1.9, n)
-        templateSimple(sequence6, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
+        printSimpleTable(sequence6, op6, "P[1.9]", "POW(1.9, n) * POW(e, -1.9) / n!")
     case 7:
         HORA_INICIO := 21
         // Dist. normal con media = 3 min y desv. = 0.5 min (a partir de las 21hs)
         sequence7 := normal(3, 0.5, n)
-        templateHora(sequence7, op7, "N[3,0.5]", "rnd() * 0.5 + 3", HORA_INICIO)
+        printTimeTable(sequence7, op7, "N[3,0.5]", "rnd() * 0.5 + 3", HORA_INICIO)
     default:
         helpMenu()
   }
 }
 
-func templateSimple(s []NumeroAleatorio, titulo string, distribucion string, formula string) {
-  fmt.Println(">>>>>>>>>>>>>>>>>>>>"+titulo+"<<<<<<<<<<<<<<<<<<<<")
-  fmt.Println("Distribución: "+distribucion)
-  fmt.Println("Formula: "+formula)
-  printTable(s)
+func printSimpleTable(fields []NumeroAleatorio, titulo string, distribucion string, formula string) {
+  w := new(tabwriter.Writer)
+	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
+	w.Flush()
+  printHeader(w, titulo, distribucion, formula)
+  for _, field := range fields {
+    id:=strconv.Itoa(field.Id)
+    na:=strconv.FormatFloat(field.NGenerado, 'f', -1, 64)
+    rnd:=strconv.FormatFloat(field.Rnd, 'f', -1, 64)
+    fmt.Fprintln(w, id+"\t"+na+"\t"+rnd+"\t")
+    fmt.Fprintln(w)
+  }
+  printLine()
 }
 
-func templateX3(s []NumeroAleatorio, n int) {
-  fmt.Println(">>>>>>>>>>>>>>>>>>>>"+op1+"<<<<<<<<<<<<<<<<<<<<")
-  printTable(s)
+func tableX3(s []NumeroAleatorio, n int) {
   /*for k, v := range s {
         if(k==n) {
           fmt.Println(">>>>>>>>>>>>>>>>>>>>"+op2+"<<<<<<<<<<<<<<<<<<<<")
@@ -99,33 +105,37 @@ func templateX3(s []NumeroAleatorio, n int) {
         fmt.Println("id:", k)
         fmt.Println("NA:", v)
     }*/
+    printLine()
 }
 
-func templateHora(s []NumeroAleatorio, titulo string, distribucion string, formula string, horaInicio int) {
-  fmt.Println(">>>>>>>>>>>>>>>>>>>>"+titulo+"<<<<<<<<<<<<<<<<<<<<")
-  fmt.Println("Distribución: "+distribucion)
-  fmt.Println("Formula: "+formula)
-  printTable(s)
-  /*var min int
-  for k, v := range s {
-    fmt.Println("id:", k)
-    min += int(v)
-    fmt.Println("NA:", strconv.Itoa(horaInicio) + ":" + strconv.Itoa(min) + "hs")
-  }*/
-}
-
-func printTable(fields []NumeroAleatorio) {
+func printTimeTable(fields []NumeroAleatorio, titulo string, distribucion string, formula string, horaInicio int) {
   w := new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 	w.Flush()
+  printHeader(w, titulo, distribucion, formula)
+  var min float64
   for _, field := range fields {
-    fmt.Fprintln(w, "Nro. Simulado\tNro. Generado\tNro. Random\t")
     id:=strconv.Itoa(field.Id)
-    na:=strconv.FormatFloat(field.NGenerado, 'f', -1, 64)
+    min += field.NGenerado
+    na:= strconv.Itoa(horaInicio) + ":" + strconv.FormatFloat(min, 'f', -1, 64)+"hs"
     rnd:=strconv.FormatFloat(field.Rnd, 'f', -1, 64)
-    fmt.Fprintln(w, id+"\t"+na+"\t"+rnd+"\t")
-  	fmt.Fprintln(w)
+    fmt.Fprintln(w, id+" \t"+na+" \t"+rnd)
+    fmt.Fprintln(w)
   }
+  printLine()
+}
+
+func printHeader(w *tabwriter.Writer, titulo string, distribucion string, formula string) {
+  printLine()
+  fmt.Println("- Titulo: "+titulo)
+  fmt.Println("- Distribución: "+distribucion)
+  fmt.Println("- Formula: "+formula)
+  printLine()
+  fmt.Fprintln(w, "Simulado \tGenerado \tRandom\t")
+}
+
+func printLine() {
+  fmt.Println("-----------------------------------------------")
 }
 
 func menu() {
