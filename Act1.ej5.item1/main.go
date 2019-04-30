@@ -98,7 +98,7 @@ func tableX3(fields []NumeroAleatorio) {
   w.Init(os.Stdout, 0, 8, 0, '\t', 0)
 	w.Flush()
   printLine()
-  fmt.Fprintln(w, "Simulado \tGenerado \tRandom\t")
+  fmt.Fprintln(w, "Simulado\t Generado\t Random\t")
   for _, field := range fields {
     id:=strconv.Itoa(field.Id)
     na:=arrF64toString(field.NGenerado)
@@ -280,16 +280,16 @@ func round(x float64) float64{
 
 func addAleatorio(arr []NumeroAleatorio, id int, x []float64, rnd float64) []NumeroAleatorio {
   na := NumeroAleatorio {
-		Id: id,
-		NGenerado: x,
+    Id: id,
+    NGenerado: x,
     Rnd: round(rnd),
-	}
+  }
   arr = append(arr, na)
   return arr
 }
 
 type NumeroAleatorio struct {
-	Id int
-	NGenerado []float64
+  Id int
+  NGenerado []float64
   Rnd float64
 }
