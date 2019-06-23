@@ -1,8 +1,8 @@
 # mys-go
-Ejercicios de la asignatura modelos y simulaciones correspondientes al primer semestre de 2019.
+Ejercicios de la materia Modelos y Simulaciones correspondientes al primer semestre de 2019.
 
 # Instalar Golang
-Bajarse e instalar Go en tu sistema operativo desde la pagina de Golang: https://golang.org/doc/install.
+Bajarse e instalar Go desde la pagina de Golang: https://golang.org/doc/install.
 
 NOTA: Para configurar el $GOPATH según tu sistema operativo seguí las instrucciones en https://github.com/golang/go/wiki/SettingGOPATH.
 
