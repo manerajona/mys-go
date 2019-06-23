@@ -1,2 +1,17 @@
 # mys-go
 Ejercicios de modelos y simulaciones
+
+# Instalar Golang
+Bajarse e instalar Go para tu sistema operativo desde la pagina de Golang: https://golang.org/doc/install.
+
+NOTA: Para configurar el $GOPATH según tu sistema operativo seguí las instrucciones en https://github.com/golang/go/wiki/SettingGOPATH.
+
+# Editar los fuentes
+Para editar los archivos .go usa cualquier editor como Notepad++ o Sublime. El mejor IDE con este proposito es Atom (https://atom.io/packages/ide-golang).
+
+# Build and Run
+Para crear un ejecutable a partir de main.go ejecuta el comando
+$ go build main
+
+Para simplemente correr main.go ejecuta el comando
+$ go run main.go
