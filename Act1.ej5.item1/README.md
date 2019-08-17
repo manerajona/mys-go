@@ -26,7 +26,7 @@ El programa debe tener 7 opciones y en cada una de ellas tendra una pausa cada 5
 
 
 
-# Aclaraciones Adicionales:
+### Aclaraciones Adicionales:
 
 Realizar un programa, preferentemente un ejecutable que no necesite instalar librerias adicionales en la maquina que se ejecute, que tenga un menu de al menos 7 opciones que podian ser identificadas por ejemplo con el nombre de la variable a generar:
 
