@@ -1,4 +1,4 @@
-# mys-go
+# Modelos y Simulaciones 2019
 Ejercicios de la materia Modelos y Simulaciones correspondientes al primer semestre de 2019.
 
 ## Instalar Golang
