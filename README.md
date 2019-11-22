@@ -9,7 +9,7 @@ NOTA: Para configurar el $GOPATH según tu sistema operativo seguí las instrucc
 ## Editar los fuentes
 Para editar los archivos .go usa cualquier editor como Notepad++ o Sublime. El mejor IDE con este proposito es Atom (https://atom.io/packages/ide-golang).
 
-## Build and Run
+## Build & Run
 Para crear un ejecutable a partir de main.go ejecuta desde la consola:
 
 ```sh
