@@ -6,9 +6,6 @@ Bajarse e instalar Go desde la pagina de Golang: https://golang.org/doc/install.
 
 NOTA: Para configurar el $GOPATH según tu sistema operativo seguí las instrucciones en https://github.com/golang/go/wiki/SettingGOPATH.
 
-## Editar los fuentes
-Para editar los archivos .go usa cualquier editor como Notepad++ o Sublime. El mejor IDE con este proposito es Atom (https://atom.io/packages/ide-golang).
-
 ## Build & Run
 Para crear un ejecutable a partir de main.go ejecuta desde la consola:
 
