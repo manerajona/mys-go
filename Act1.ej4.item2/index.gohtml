@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividad 1, Ejercicio 4, Item 1</title>
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        width: 500px;
+    }
+    input, select {
+        width : 200px;
+        padding: 0;
+        margin: 5px;
+        box-sizing: border-box;
+    }
+    </style>
+</head>
+<body>
+
+<h1>Generador de Números Aleatorios:</h1>
+
+<form method="POST">
+    <label for="distribution">* Distribución</label></br>
+    <select id="distribution" name="dist" required>
+    <option value="uniform">Uniforme</option>
+    <option value="exp">Exponencial</option>
+    <option value="empiric">Empirica</option>
+    <option value="poisson">Poisson</option>
+    </select></br>
+    <label for="number">* Cantidad</label></br>
+    <input type="number" id="number" name="num" required></br>
+    <input type="submit" value="Calcular">
+</form>
+
+<br>
+
+<table>
+
+<tr>
+ <th scope="col">#</th>
+ <th scope="col">Numero</th>
+</tr>
+
+{{range $key, $value := .Items}}
+<tr>
+ <td>{{$key}}</td>
+ <td>{{$value}}</td>
+</tr>
+{{end}}
+
+</table>
+
+</body>
+</html>
