@@ -38,7 +38,6 @@ func foo(w http.ResponseWriter, req *http.Request) {
 		sequence = calculateByEmpiric(n)
 	case "poisson":
 		sequence = calculateByPoisson(n)
-
 	}
 
 	err := tpl.ExecuteTemplate(w, "index.gohtml", ViewData{sequence})
