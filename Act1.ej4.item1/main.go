@@ -41,29 +41,28 @@ func foo(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-const a = 0
-const b = 36
+const (
+	a = 0
+	b = 36
+)
 
 func calculate(count int) []randomResult {
 	sequence := []randomResult{}
-	for count > 0 {
+	for ; count > 0; count-- {
 		x := rand.Intn(b-a) + a
-		par := getParity(x)
-		rr := randomResult{x, par}
-		sequence = append(sequence, rr)
-		count--
+		par := parityOf(x)
+		sequence = append(sequence, randomResult{x, par})
 	}
 	return sequence
 }
 
-func getParity(v int) string {
-	parity := "cero"
-	if v != 0 {
-		if v%2 == 0 {
-			parity = "par"
-		} else {
-			parity = "impar"
-		}
+func parityOf(v int) string {
+	switch {
+	case v == 0:
+		return "Cero"
+	case v%2 == 0:
+		return "Par"
+	default:
+		return "Impar"
 	}
-	return parity
 }

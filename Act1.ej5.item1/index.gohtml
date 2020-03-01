@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Actividad 1, Ejercicio 4, Item 1</title>
+    <style>
+    table, th, td {
+        border: 1px solid black;
+        width: 500px;
+    }
+    select {
+        width : 200px;
+        padding: 0;
+        margin: 5px;
+        box-sizing: border-box;
+    }
+    input {
+        width : 100px;
+        padding: 0;
+        margin: 5px;
+        box-sizing: border-box;
+    }
+    </style>
+</head>
+<body>
+
+<h1>Generador de Números Aleatorios:</h1>
+
+<form method="POST">
+    <select name="op" required>
+        <option value="op1">1.Dl champagne</option>
+        <option value="op2">2.Copas champagne</option>
+        <option value="op3">3.Segundos entre pedido de copas</option>
+        <option value="op4">4.Opcion 1, 2 y 3 juntas</option>
+        <option value="op5">5.Segundos en extraer copa</option>
+        <option value="op6">6.Personas por auto</option>
+        <option value="op7">7.Minutos entre autos</option>
+    </select>
+    <input type="number" value="10" name="num">
+    <input type="submit" value="Calcular">
+</form>
+<ul>
+	<li>Op 1) genera N.A. con dist. continua entre 13 y 17.</li>
+	<li>Op 2) genera N.A. con dist. uniforme entre 20 y 25.</li>
+	<li>Op 3) genera N.A. con dist. exponencial con 1/lambda=10.</li>
+	<li>Op 4) genera N.A. con dist. en 1, 2 y 3.</li>
+	<li>Op 5) genera N.A. con dist. empirica.</li>
+	<li>Op 6) genera N.A. con dist. poisson con media=1,8.</li>
+	<li>Op 7) genera N.A. con dist. normal con media=3 min, desvio=0.5 min a partir de las 21hs</li>
+</ul>
+
+<br>
+
+
+<h2>Resultado</h2>
+<h3>Distribución: {{.Distribution}}</h3>
+<h3>Fórmula: {{.Method}}</h3>
+
+<table>
+
+<tr>
+ <th scope="col">Simulado</th>
+ <th scope="col">Generado</th>
+ <th scope="col">Random</th>
+</tr>
+
+{{range $key, $value := .Items}}
+<tr>
+ <td>{{$value.Id}}</td>
+ <td>{{$value.NGenerado}}</td>
+ <td>{{$value.Rnd}}</td>
+</tr>
+{{end}}
+
+</table>
+
+</body>
+</html>
