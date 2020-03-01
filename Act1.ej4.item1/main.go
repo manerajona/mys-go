@@ -1,43 +1,69 @@
 package main
 
 import (
-  "fmt"
-  "math/rand"
+	"log"
+	"math/rand"
+	"net/http"
+	"strconv"
+	"text/template"
 )
 
+var tpl *template.Template
+
+func init() {
+	tpl = template.Must(template.ParseFiles("index.gohtml"))
+}
+
+type randomResult struct {
+	Number int
+	Parity string
+}
+
+type ViewData struct {
+	Items []randomResult
+}
+
 func main() {
-  var n int
-  fmt.Println("Ingrese la cantidad de rondas : ")
-  _, err := fmt.Scanf("%d", &n)
-  if err != nil {
-    fmt.Println(err)
-  }
-  printResult(calculate(n))
+	http.HandleFunc("/", foo)
+	http.Handle("/favicon.ico", http.NotFoundHandler())
+	http.ListenAndServe(":8080", nil)
 }
 
-func printResult(res []int) {
-  fmt.Println("Resultado: ")
-  for _,v := range res {
-    parity := "cero"
-    if v!=0 {
-      if v%2==0 {
-        parity = "par"
-      } else {
-        parity = "impar"
-      }
-    }
-    fmt.Printf("%d (%v) \n", v, parity)
-  }
+func foo(w http.ResponseWriter, req *http.Request) {
+
+	n, _ := strconv.Atoi(req.FormValue("num"))
+	sequence := calculate(n)
+
+	err := tpl.ExecuteTemplate(w, "index.gohtml", ViewData{sequence})
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		log.Fatalln(err)
+	}
 }
 
-const a=0
-const b=36
-func calculate(count int) []int {
-  sequence := []int{}
-  for count > 0 {
-    x := rand.Intn(b - a) + a
-    sequence = append(sequence, x)
-    count--
-  }
-  return sequence
+const a = 0
+const b = 36
+
+func calculate(count int) []randomResult {
+	sequence := []randomResult{}
+	for count > 0 {
+		x := rand.Intn(b-a) + a
+		par := getParity(x)
+		rr := randomResult{x, par}
+		sequence = append(sequence, rr)
+		count--
+	}
+	return sequence
+}
+
+func getParity(v int) string {
+	parity := "cero"
+	if v != 0 {
+		if v%2 == 0 {
+			parity = "par"
+		} else {
+			parity = "impar"
+		}
+	}
+	return parity
 }
