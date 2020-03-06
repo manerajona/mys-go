@@ -27,6 +27,7 @@ func foo(w http.ResponseWriter, req *http.Request) {
 
 	dist := req.FormValue("dist")
 	n, _ := strconv.Atoi(req.FormValue("num"))
+	// NOTE: Ignoring potential errors in convertion
 
 	var sequence map[int]float64
 	switch dist {

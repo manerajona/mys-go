@@ -32,6 +32,7 @@ func main() {
 func foo(w http.ResponseWriter, req *http.Request) {
 
 	n, _ := strconv.Atoi(req.FormValue("num"))
+	// NOTE: Ignoring potential errors in convertion
 	sequence := calculate(n)
 
 	err := tpl.ExecuteTemplate(w, "index.gohtml", ViewData{sequence})
@@ -41,15 +42,11 @@ func foo(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-const (
-	a = 0
-	b = 36
-)
-
 func calculate(count int) []randomResult {
+	const b = 36
 	sequence := []randomResult{}
 	for ; count > 0; count-- {
-		x := rand.Intn(b-a) + a
+		x := rand.Intn(b)
 		par := parityOf(x)
 		sequence = append(sequence, randomResult{x, par})
 	}

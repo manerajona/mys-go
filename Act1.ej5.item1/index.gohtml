@@ -7,6 +7,7 @@
     table, th, td {
         border: 1px solid black;
         width: 500px;
+        padding: 1em;
     }
     select {
         width : 200px;
@@ -67,7 +68,13 @@
 {{range $key, $value := .Items}}
 <tr>
  <td>{{$value.Id}}</td>
- <td>{{$value.NGenerado}}</td>
+ <td><ul>
+    {{range $key, $value := .Generated}}
+    <li>
+        {{$value}}
+    </li>
+    {{end}}
+ </td></ul>
  <td>{{$value.Rnd}}</td>
 </tr>
 {{end}}

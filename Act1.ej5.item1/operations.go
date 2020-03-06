@@ -5,44 +5,46 @@ import (
 	"math/rand"
 )
 
-const e float64 = 2.71828
-const DECIMAL_PRECISION = 1000
+const (
+	e                 float64 = 2.71828
+	DECIMAL_PRECISION         = 1000
+)
 
-func uniformeContinua(a int, b int, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func uniformeContinua(a int, b int, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 		x := rnd*float64(b-a) + float64(a)
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
 
-func uniformeDiscreta(a int, b int, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func uniformeDiscreta(a int, b int, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 		x := rnd*float64(b-a) + float64(a)
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
 
-func exponencial(lambda int, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func exponencial(lambda int, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 		x := -1.0 * float64(lambda) * math.Log(1.0-rnd)
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
 
-func UContUDiscExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func UContUDiscExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 
@@ -51,13 +53,13 @@ func UContUDiscExp(a1 int, b1 int, a2 int, b2 int, lambda int, n int) []NumeroAl
 		x3 := -1.0 * float64(lambda) * math.Log(1.0-rnd)
 
 		xn := []float64{round(x1), round(x2), round(x3)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
 
-func empirica(n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func empirica(n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 		x := rnd * 3
@@ -69,29 +71,29 @@ func empirica(n int) []NumeroAleatorio {
 			}
 		}
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
 
-func poisson(lambda float64, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func poisson(lambda float64, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		nfact := factorial(i) //n!
 		x := (math.Pow(lambda, float64(i)) * math.Pow(e, -lambda)) / float64(nfact)
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, 0)
+		addAleatorio(&sequence, i, xn, 0)
 	}
 	return sequence
 }
 
-func normal(a float64, b float64, n int) []NumeroAleatorio {
-	sequence := []NumeroAleatorio{}
+func normal(a float64, b float64, n int) []aleatoryNumber {
+	sequence := []aleatoryNumber{}
 	for i := 0; i <= n; i++ {
 		rnd := rand.Float64()
 		x := rnd*b + a
 		xn := []float64{round(x)}
-		sequence = addAleatorio(sequence, i, xn, rnd)
+		addAleatorio(&sequence, i, xn, rnd)
 	}
 	return sequence
 }
@@ -107,12 +109,10 @@ func round(x float64) float64 {
 	return math.Round(x*DECIMAL_PRECISION) / DECIMAL_PRECISION
 }
 
-func addAleatorio(arr []NumeroAleatorio, id int, x []float64, rnd float64) []NumeroAleatorio {
-	na := NumeroAleatorio{
+func addAleatorio(arr *[]aleatoryNumber, id int, x []float64, rnd float64) {
+	*arr = append(*arr, aleatoryNumber{
 		Id:        id,
-		NGenerado: x,
+		Generated: x,
 		Rnd:       round(rnd),
-	}
-	arr = append(arr, na)
-	return arr
+	})
 }

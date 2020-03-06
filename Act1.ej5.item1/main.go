@@ -13,15 +13,15 @@ func init() {
 	tpl = template.Must(template.ParseFiles("index.gohtml"))
 }
 
-type NumeroAleatorio struct {
+type aleatoryNumber struct {
 	Id        int
-	NGenerado []float64
+	Generated []float64
 	Rnd       float64
 }
 
 type ViewData struct {
 	Distribution, Method string
-	Items                []NumeroAleatorio
+	Items                []aleatoryNumber
 }
 
 func main() {
@@ -34,10 +34,11 @@ func foo(w http.ResponseWriter, req *http.Request) {
 
 	op := req.FormValue("op")
 	n, _ := strconv.Atoi(req.FormValue("num"))
+	// NOTE: Ignoring potential errors in convertion
 
 	var (
 		distribution, method string
-		sequence             []NumeroAleatorio
+		sequence             []aleatoryNumber
 	)
 	switch op {
 	case "op1":
@@ -75,7 +76,6 @@ func foo(w http.ResponseWriter, req *http.Request) {
 		sequence = normal(3, 0.5, n)
 		distribution = "N[3,0.5]"
 		method = "rnd() * 0.5 + 3"
-
 	}
 
 	err := tpl.ExecuteTemplate(w, "index.gohtml", ViewData{distribution, method, sequence})

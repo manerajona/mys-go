@@ -5,10 +5,7 @@ import (
 )
 
 func calculateByPoisson(count int) map[int]float64 {
-	const (
-		e      float64 = 2.71828
-		lambda         = 2.0
-	)
+	const e, lambda = 2.71828, 2.0
 	sequence := make(map[int]float64)
 	for index := 1; count >= index; index++ {
 
