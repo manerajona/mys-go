@@ -14,13 +14,13 @@ func init() {
 	tpl = template.Must(template.ParseFiles("index.gohtml"))
 }
 
-type randomResult struct {
+type aleatoryNumber struct {
 	Number int
 	Parity string
 }
 
 type ViewData struct {
-	Items []randomResult
+	Items []aleatoryNumber
 }
 
 func main() {
@@ -42,13 +42,13 @@ func foo(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func calculate(count int) []randomResult {
+func calculate(count int) []aleatoryNumber {
 	const b = 36
-	sequence := []randomResult{}
+	sequence := []aleatoryNumber{}
 	for ; count > 0; count-- {
 		x := rand.Intn(b)
 		par := parityOf(x)
-		sequence = append(sequence, randomResult{x, par})
+		sequence = append(sequence, aleatoryNumber{x, par})
 	}
 	return sequence
 }
